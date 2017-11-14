@@ -1,4 +1,4 @@
-﻿2017/11/14 15:13:47 にビルドを開始しました。
+﻿2017/11/14 17:20:35 にビルドを開始しました。
      1>ノード 3 上のプロジェクト "C:\ObjectNameToVelocity\ObjectNameToVelocity\build\src\ObjectNameToVelocity.vcxproj" (Build ターゲット)。
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /IC:\ObjectNameToVelocity\ObjectNameToVelocity\include /IC:\ObjectNameToVelocity\ObjectNameToVelocity\include\ObjectNameToVelocity /IC:\ObjectNameToVelocity\ObjectNameToVelocity\build /IC:\ObjectNameToVelocity\ObjectNameToVelocity\build\idl /I"C:\Program Files (x86)\OpenRTM-aist\1.1.2" /I"C:\Program Files (x86)\OpenRTM-aist\1.1.2\rtm\idl" /I"C:\Program Files (x86)\OpenRTM-aist\1.1.2\rtm\ext" /I"C:\Program Files (x86)\OpenRTM-aist\1.1.2\omniORB\4.2.1_vc12\include" /Zi /nologo /W3 /WX- /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D __WIN32__ /D __x86__ /D __NT__ /D __OSVERSION__=4 /D _CRT_SECURE_NO_DEPRECATE /D INCLUDE_stub_in_nt_dll /D RTC_CORBA_CXXMAPPING11 /D _WIN32_WINNT=0x0500 /D "CMAKE_INTDIR=\"Debug\"" /D ObjectNameToVelocity_EXPORTS /D _WINDLL /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /Fo"ObjectNameToVelocity.dir\Debug\\" /Fd"ObjectNameToVelocity.dir\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt C:\ObjectNameToVelocity\ObjectNameToVelocity\src\ObjectNameToVelocity.cpp
@@ -82,4 +82,4 @@
 
 ビルドに成功しました。
 
-経過時間 00:00:02.35
+経過時間 00:00:02.36

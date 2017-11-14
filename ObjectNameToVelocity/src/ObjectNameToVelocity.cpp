@@ -26,124 +26,127 @@ static const char* objectnametovelocity_spec[] =
     "lang_type",         "compile",
     ""
   };
-// </rtc-template>
-
-/*!
- * @brief constructor
- * @param manager Maneger Object
- */
-ObjectNameToVelocity::ObjectNameToVelocity(RTC::Manager* manager)
-    // <rtc-template block="initializer">
-  : RTC::DataFlowComponentBase(manager),
-    m_inStringDataIn("inStringData", m_inStringData),
-    m_outVelocityDataOut("outVelocityData", m_outVelocityData)
-
-    // </rtc-template>
-{
-}
-
-/*!
- * @brief destructor
- */
-ObjectNameToVelocity::~ObjectNameToVelocity()
-{
-}
-
-
-
-RTC::ReturnCode_t ObjectNameToVelocity::onInitialize()
-{
-  // Registration: InPort/OutPort/Service
-  // <rtc-template block="registration">
-  // Set InPort buffers
-  addInPort("inStringData", m_inStringDataIn);
-  
-  // Set OutPort buffer
-  addOutPort("outVelocityData", m_outVelocityDataOut);
-  
-  // Set service provider to Ports
-  
-  // Set service consumers to Ports
-  
-  // Set CORBA Service Ports
-  
   // </rtc-template>
 
-  // <rtc-template block="bind_config">
-  // </rtc-template>
-  
+  /*!
+   * @brief constructor
+   * @param manager Maneger Object
+   */
+  ObjectNameToVelocity::ObjectNameToVelocity(RTC::Manager* manager)
+	  // <rtc-template block="initializer">
+	  : RTC::DataFlowComponentBase(manager),
+	  m_inStringDataIn("inStringData", m_inStringData),
+	  m_outVelocityDataOut("outVelocityData", m_outVelocityData)
+
+	  // </rtc-template>
+  {
+  }
+
+  /*!
+   * @brief destructor
+   */
+  ObjectNameToVelocity::~ObjectNameToVelocity()
+  {
+  }
+
+
+
+  RTC::ReturnCode_t ObjectNameToVelocity::onInitialize()
+  {
+	  // Registration: InPort/OutPort/Service
+	  // <rtc-template block="registration">
+	  // Set InPort buffers
+	  addInPort("inStringData", m_inStringDataIn);
+
+	  // Set OutPort buffer
+	  addOutPort("outVelocityData", m_outVelocityDataOut);
+
+	  // Set service provider to Ports
+
+	  // Set service consumers to Ports
+
+	  // Set CORBA Service Ports
+
+	  // </rtc-template>
+
+	  // <rtc-template block="bind_config">
+	  // </rtc-template>
+
+	  return RTC::RTC_OK;
+  }
+
+  /*
+  RTC::ReturnCode_t ObjectNameToVelocity::onFinalize()
+  {
   return RTC::RTC_OK;
-}
+  }
+  */
 
-/*
-RTC::ReturnCode_t ObjectNameToVelocity::onFinalize()
-{
+  /*
+  RTC::ReturnCode_t ObjectNameToVelocity::onStartup(RTC::UniqueId ec_id)
+  {
   return RTC::RTC_OK;
-}
-*/
+  }
+  */
 
-/*
-RTC::ReturnCode_t ObjectNameToVelocity::onStartup(RTC::UniqueId ec_id)
-{
+  /*
+  RTC::ReturnCode_t ObjectNameToVelocity::onShutdown(RTC::UniqueId ec_id)
+  {
   return RTC::RTC_OK;
-}
-*/
-
-/*
-RTC::ReturnCode_t ObjectNameToVelocity::onShutdown(RTC::UniqueId ec_id)
-{
-  return RTC::RTC_OK;
-}
-*/
+  }
+  */
 
 
-RTC::ReturnCode_t ObjectNameToVelocity::onActivated(RTC::UniqueId ec_id)
-{
-  return RTC::RTC_OK;
-}
+  RTC::ReturnCode_t ObjectNameToVelocity::onActivated(RTC::UniqueId ec_id)
+  {
+	  //出力データを初期化しておく
+	  m_outVelocityData.data.vx = 0;
+	  m_outVelocityData.data.vy = 0;
+	  m_outVelocityData.data.va = 0;
+
+	  m_outVelocityDataOut.write();
+
+	  return RTC::RTC_OK;
+  }
 
 
-RTC::ReturnCode_t ObjectNameToVelocity::onDeactivated(RTC::UniqueId ec_id)
-{
-  return RTC::RTC_OK;
-}
+  RTC::ReturnCode_t ObjectNameToVelocity::onDeactivated(RTC::UniqueId ec_id)
+  {
+	  //停止させるために出力データを初期化
+	  m_outVelocityData.data.vx = 0;
+	  m_outVelocityData.data.vy = 0;
+	  m_outVelocityData.data.va = 0;
+
+	  m_outVelocityDataOut.write();
+
+	  return RTC::RTC_OK;
+  }
 
 
-RTC::ReturnCode_t ObjectNameToVelocity::onExecute(RTC::UniqueId ec_id)
-{
+  RTC::ReturnCode_t ObjectNameToVelocity::onExecute(RTC::UniqueId ec_id)
+  {
 
-	if (m_inStringDataIn.isNew())
-	{
+	  if (m_inStringDataIn.isNew())
+	  {
 
-		unsigned int  my_seed = 0;
+		  m_outVelocityData.data.vx = 0;  //対象外文字列の場合を考慮し初期化
 
-		//入力データの読み込み
-		m_inStringDataIn.read();
-		
-		mystr = m_inStringData.data;
+		  //入力文字列の読み込み
+		  m_inStringDataIn.read();
 
-		//vx( -1.5 <= x <= 1,5)
-		for (unsigned char i = 0; i < mystr.length(); i++)
-		{
-			my_seed += mystr[i];
-			std::cout << " char = " << mystr[i] << "seed = " << my_seed << std::endl;
-		}
+		  //入力文字列の判定により、対象文字列の場合にvxの値を操作する
+		  if (strcmp(m_inStringData.data, "abc") == 0)
+		  {
+			  m_outVelocityData.data.vx = 0.5;
+		  }
+		  else if (strcmp(m_inStringData.data, "cba") == 0)
+		  {
+			 m_outVelocityData.data.vx = -0.5;
+		  }
 
-		srand(my_seed);
-
-		m_outVelocityData.data.vx = rand() % 4 - 1.5; //[入力文字列により次の値になる-1.5, -0.5, 0.5, 1.5]
-
-		std::cout << "[onExecute] InputData = " << m_inStringData.data << " data.vx = " << m_outVelocityData.data.vx << std::endl;
-	}
-	else
-	{
-		//新しいデータがない場合には、初期化する
-		m_outVelocityData.data.vx = 0;
-		m_outVelocityData.data.vy = 0;
-		m_outVelocityData.data.va = 0;
-	}
-
-	//出力データの書き込み
+	   }
+	
+	//出力用データを書き込む
 	m_outVelocityDataOut.write();
 
   return RTC::RTC_OK;
