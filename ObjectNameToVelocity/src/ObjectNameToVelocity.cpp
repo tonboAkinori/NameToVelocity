@@ -143,11 +143,10 @@ static const char* objectnametovelocity_spec[] =
 		  {
 			 m_outVelocityData.data.vx = -0.5;
 		  }
-
+		
+		  //出力用データを書き込む
+		  m_outVelocityDataOut.write();
 	   }
-	
-	//出力用データを書き込む
-	m_outVelocityDataOut.write();
 
   return RTC::RTC_OK;
 }
