@@ -196,22 +196,32 @@ class ObjectNameToVelocity(OpenRTM_aist.DataFlowComponentBase):
 		#
 	def onExecute(self, ec_id):
 	    
-		# 特定の文字列で、前進と後退を行う
+		# 特定の文字列で、前進と後退などを行う
 		if self._inDataStringIn.isNew():
 
 			data = self._inDataStringIn.read()
 
-			if data.data == "abc":
+			if data.data == "bow tie":
 			
-				self._d_outDataVelocity.data.vx = 1.5
+				self._d_outDataVelocity.data.vx = 0.5
 			
-			elif data.data == "cba":
+			elif data.data == "hook":
 			
-				self._d_outDataVelocity.data.vx = -1.5
+				self._d_outDataVelocity.data.vx = -0.5
+
+			elif data.data == "pinwheel":
+
+				self._d_outDataVelocity.data.va = 0.1
+
+			elif data.data == "envelope":
+
+				self._d_outDataVelocity.data.va = -0.1
 
 			else:
 
 				self._d_outDataVelocity.data.vx = 0
+				self._d_outDataVelocity.data.vy = 0
+				self._d_outDataVelocity.data.va = 0
 
 			self._outDataVelocityOut.write()
 		
